@@ -1,0 +1,26 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background with gradient -->
+    <rect width="1200" height="630" fill="url(#gradient)"/>
+    
+    <!-- Logo/Icon -->
+    <circle cx="600" cy="265" r="80" fill="white" fill-opacity="0.1"/>
+    <path d="M640 265C640 287.091 622.091 305 600 305C577.909 305 560 287.091 560 265C560 242.909 577.909 225 600 225C622.091 225 640 242.909 640 265ZM605 245C605 247.761 602.761 250 600 250C597.239 250 595 247.761 595 245C595 242.239 597.239 240 600 240C602.761 240 605 242.239 605 245ZM620 265C620 276.046 611.046 285 600 285C588.954 285 580 276.046 580 265C580 253.954 588.954 245 600 245C611.046 245 620 253.954 620 265Z" fill="white"/>
+    
+    <!-- Title -->
+    <text x="600" y="400" text-anchor="middle" fill="white" font-family="system-ui" font-size="60" font-weight="bold">VDBYai</text>
+    
+    <!-- Subtitle -->
+    <text x="600" y="460" text-anchor="middle" fill="white" font-family="system-ui" font-size="32">Instagram Content Downloader</text>
+    
+    <!-- Features -->
+    <text x="600" y="520" text-anchor="middle" fill="white" font-family="system-ui" font-size="24">Download Reels • Stories • Videos • HD Quality</text>
+    
+    <!-- Gradient definition -->
+    <defs>
+        <linearGradient id="gradient" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" style="stop-color:#4F46E5"/>
+            <stop offset="50%" style="stop-color:#7C3AED"/>
+            <stop offset="100%" style="stop-color:#DB2777"/>
+        </linearGradient>
+    </defs>
+</svg> 

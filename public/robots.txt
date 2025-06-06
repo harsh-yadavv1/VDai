@@ -1,0 +1,38 @@
+# VDBYai - Instagram and Pinterest Content Downloader
+# https://vdbyai.vercel.app
+
+# Allow all robots full access
+User-agent: *
+Allow: /
+Allow: /instagram
+Allow: /pinterest
+Allow: /terms
+Allow: /privacy
+
+# Prevent caching of API routes
+User-agent: *
+Disallow: /api/
+
+# Prevent crawling of development-specific paths
+User-agent: *
+Disallow: /_next/
+Disallow: /static/
+Disallow: /node_modules/
+
+# Crawl delay to prevent server overload
+Crawl-delay: 10
+
+# Sitemap location
+Sitemap: https://vdbyai.vercel.app/sitemap.xml
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://instangrab.vercel.app/sitemap.xml
+
+# Disallow API routes and downloads
+Disallow: /api/
+Disallow: /downloads/
+Disallow: /temp/ 
