@@ -35,4 +35,12 @@ Sitemap: https://instangrab.vercel.app/sitemap.xml
 # Disallow API routes and downloads
 Disallow: /api/
 Disallow: /downloads/
-Disallow: /temp/ 
+Disallow: /temp/
+
+# New section
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /downloads/
+
+Sitemap: https://your-domain.com/sitemap.xml 

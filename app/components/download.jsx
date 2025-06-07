@@ -94,6 +94,7 @@ export default function Downloader() {
     setDownloadLink("");
 
     try {
+      console.log("Starting download request for URL:", url);
       const res = await fetch("/api/download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -101,16 +102,55 @@ export default function Downloader() {
       });
 
       const data = await res.json();
-      if (data.downloadUrl) {
+      console.log("Download response:", data);
+
+      if (data.success && data.downloadUrl) {
+        console.log("Setting download link:", data.downloadUrl);
         setDownloadLink(data.downloadUrl);
       } else {
+        console.error("Download failed:", data.error);
         alert(data.error || "Failed to get download link");
       }
     } catch (err) {
+      console.error("Download request error:", err);
       alert("Something went wrong. Please try again.");
     }
 
     setLoading(false);
+  };
+
+  const handleFileDownload = async () => {
+    if (!downloadLink) return;
+
+    try {
+      console.log("Starting file download from:", downloadLink);
+      setLoading(true);
+
+      const response = await fetch(downloadLink);
+      console.log("File download response status:", response.status);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      console.log("File blob size:", blob.size);
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = downloadLink.split("/").pop() || "video.mp4";
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      console.log("File download completed");
+    } catch (error) {
+      console.error("File download error:", error);
+      alert("Failed to download file. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -241,6 +281,10 @@ export default function Downloader() {
                       controls
                       className="rounded-2xl shadow-lg max-w-sm w-full border border-gray-200"
                       src={downloadLink}
+                      onError={(e) => {
+                        console.error("Video preview error:", e);
+                        e.target.style.display = "none";
+                      }}
                     />
                   ) : (
                     <div className="relative group">
@@ -248,35 +292,33 @@ export default function Downloader() {
                         src={downloadLink}
                         alt="Preview"
                         className="rounded-2xl shadow-lg max-w-sm w-full border border-gray-200 transition-transform duration-300 group-hover:scale-105"
+                        onError={(e) => {
+                          console.error("Image preview error:", e);
+                          e.target.style.display = "none";
+                        }}
                       />
                     </div>
                   )}
                 </div>
 
                 <div className="flex justify-center">
-                  <div className="flex justify-center">
-                    <button
-                      onClick={() => {
-                        const form = document.createElement("form");
-                        form.method = "POST";
-                        form.action = "/api/force-download";
-                        form.style.display = "none";
-
-                        const input = document.createElement("input");
-                        input.name = "url";
-                        input.value = downloadLink;
-                        form.appendChild(input);
-
-                        document.body.appendChild(form);
-                        form.submit();
-                        document.body.removeChild(form);
-                      }}
-                      className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                    >
-                      <Download className="w-6 h-6 group-hover:animate-bounce" />
-                      <span>Download Now</span>
-                    </button>
-                  </div>
+                  <button
+                    onClick={handleFileDownload}
+                    disabled={loading}
+                    className={`group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed`}
+                  >
+                    {loading ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <span>Downloading...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Download className="w-5 h-5" />
+                        <span>Download Now</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
             )}

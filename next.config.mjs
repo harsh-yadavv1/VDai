@@ -34,11 +34,11 @@ const nextConfig = {
     },
     async rewrites() {
         return [{
-            source: "/downloads/:path*",
-            destination: "/api/serve/:path*",
+            source: "/api/download/file/:path*",
+            destination: "/api/download?filename=:path*",
         }, ];
     },
-    allowedDevOrigins: ["http://localhost:3000", "http://192.168.29.193:3000"],
+    allowedDevOrigins: ["http://localhost:3000", "http://192.168.56.1:3000"],
     images: {
         remotePatterns: [{
                 protocol: "https",

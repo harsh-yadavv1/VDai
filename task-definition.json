@@ -1,0 +1,44 @@
+{
+    "family": "vdbyai",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "1024",
+    "memory": "2048",
+    "executionRoleArn": "arn:aws:iam::your-account-id:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::your-account-id:role/ecsTaskRole",
+    "containerDefinitions": [{
+        "name": "vdbyai",
+        "image": "your-account-id.dkr.ecr.your-region.amazonaws.com/vdbyai:latest",
+        "essential": true,
+        "portMappings": [{
+            "containerPort": 3000,
+            "hostPort": 3000,
+            "protocol": "tcp"
+        }],
+        "environment": [{
+                "name": "NODE_ENV",
+                "value": "production"
+            },
+            {
+                "name": "NEXT_PUBLIC_API_URL",
+                "value": "https://your-domain.com"
+            },
+            {
+                "name": "NEXT_PUBLIC_SITE_URL",
+                "value": "https://your-domain.com"
+            }
+        ],
+        "secrets": [{
+            "name": "NEXTAUTH_SECRET",
+            "valueFrom": "arn:aws:ssm:your-region:your-account-id:parameter/vdbyai/nextauth-secret"
+        }],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "/ecs/vdbyai",
+                "awslogs-region": "your-region",
+                "awslogs-stream-prefix": "ecs"
+            }
+        }
+    }]
+}
