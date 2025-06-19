@@ -92,3 +92,6 @@ Required environment variables:
 ## License
 
 MIT License
+
+
+yt-dlp "https://www.instagram.com/reel/DKtQSA8S2nZ/" --cookies "/home/ubuntu/VDai/config/cookies.txt"
